@@ -17,14 +17,18 @@ This code is an Arduino program that controls a Servo motor and measures its rot
 - Press the button to change the number of Blades used for Servo motor control.
 
 ** Arduino Pin Function Summary
-2	  Rotary Encoder (Signal)
-3	  Blade Count Button
-A6	Servo Angle Setting Potentiometer
-A2	External Power Input Voltage Measurement
-A3	Servo Motor Power Voltage Measurement
-9	  Servo Motor PWM Control
-SCL	OLED Display I2C Clock Signal
-SDA	OLED Display I2C Data Signal
+
+| Pin | Function |
+|---|---|
+| 2 | Rotary Encoder (Signal) |
+| 3 | Blade Count Button |
+| A6 | Servo Angle Setting Potentiometer |
+| A2 | External Power Input Voltage Measurement |
+| A3 | Servo Motor Power Voltage Measurement |
+| 9 | Servo Motor PWM Control |
+| SCL | OLED Display I2C Clock Signal (A5) |
+| SDA | OLED Display I2C Data Signal (A4) |
+
 
 ** For the reference hardware, see the attached schematic.
 
