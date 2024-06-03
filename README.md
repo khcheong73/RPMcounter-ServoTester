@@ -1,22 +1,24 @@
-Servo/RPM Tester Arduino Code README
+**Servo/RPM Tester Arduino Code README**
 
-** Overview
+
+__Overview__
+
 This code is an Arduino program that controls a Servo motor and measures its rotation speed (RPM) using an OLED display.
 
-** Key Features
+__Key Features__
 1. Servo Motor Control:
-- Set the Servo motor angle using a potentiometer.
-- Provides a smooth animation effect when the Servo motor angle changes.
+    - Set the Servo motor angle using a potentiometer.
+    - Provides a smooth animation effect when the Servo motor angle changes.
 2. RPM Measurement:
-- Measures the rotation speed of the Servo motor using a Rotary Encoder.
-- Displays the measured RPM on the OLED display.
+    - Measures the rotation speed of the Servo motor using a Rotary Encoder.
+    - Displays the measured RPM on the OLED display.
 3. OLED Display:
-- Displays Servo motor angle, RPM, and voltage information on the OLED display.
-- Displays the title "Servo/RPM Tester".
+    - Displays Servo motor angle, RPM, and voltage information on the OLED display.
+    - Displays the title "Servo/RPM Tester".
 4. Button:
-- Press the button to change the number of Blades used for Servo motor control.
+    - Press the button to change the number of Blades used for Servo motor control.
 
-** Arduino Pin Function Summary
+__Arduino Pin Function Summary__
 
 | Pin | Function |
 |---|---|
@@ -30,24 +32,26 @@ This code is an Arduino program that controls a Servo motor and measures its rot
 | SDA | OLED Display I2C Data Signal (A4) |
 
 
-** For the reference hardware, see the attached schematic.
+__For the reference hardware, see the attached schematic.__
 
-** Required Arduino Libraries for Servo/RPM Tester Code
+__Required Arduino Libraries for Servo/RPM Tester Code__
+
 The Servo/RPM Tester Arduino code utilizes several libraries to provide various functionalities. Here's a summary of the essential libraries:
 
 1. Arduino.h:
-This core Arduino library provides fundamental functions and definitions for interacting with the Arduino hardware. It includes functions for input/output operations, timers, interrupts, and other essential functionalities.
+    - This core Arduino library provides fundamental functions and definitions for interacting with the Arduino hardware. It includes functions for input/output operations, timers, interrupts, and other essential functionalities.
 
 2. U8g2lib.h:
-This library is specifically designed for controlling and communicating with OLED displays. It offers a comprehensive set of functions for drawing text, graphics, and manipulating the display buffer. The code uses U8g2lib to display various information on the OLED display, including servo angle, RPM, voltage readings, and the title "Servo/RPM Tester".
+    - This library is specifically designed for controlling and communicating with OLED displays. It offers a comprehensive set of functions for drawing text, graphics, and manipulating the display buffer. The code uses U8g2lib to display various information on the OLED display, including servo angle, RPM, voltage readings, and the title "Servo/RPM Tester".
 
 3. Servo.h:
-This library provides high-level functions for controlling servo motors. It simplifies the process of sending control signals to servo motors, allowing for precise angle adjustments. The code uses Servo.h to control the servo motor based on potentiometer input and animation effects.
+    - This library provides high-level functions for controlling servo motors. It simplifies the process of sending control signals to servo motors, allowing for precise angle adjustments. The code uses Servo.h to control the servo motor based on potentiometer input and animation effects.
 
-Additional Libraries:
-Wire.h: This library is used for I2C communication, which is the interface used to connect the OLED display to the Arduino board.
+4. Wire.h: 
+    - This library is used for I2C communication, which is the interface used to connect the OLED display to the Arduino board.
+
 Note:
 
-These libraries are typically included in the Arduino IDE's library manager, making it easy to install and integrate them into your projects.
-Ensure that you have the latest versions of these libraries installed for optimal compatibility and performance.
-Refer to the official documentation of each library for detailed usage instructions and examples.
+- These libraries are typically included in the Arduino IDE's library manager, making it easy to install and integrate them into your projects.
+- Ensure that you have the latest versions of these libraries installed for optimal compatibility and performance.
+- Refer to the official documentation of each library for detailed usage instructions and examples.
