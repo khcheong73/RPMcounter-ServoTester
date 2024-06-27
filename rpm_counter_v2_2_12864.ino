@@ -2,6 +2,8 @@
 #include <U8g2lib.h>
 #include <Servo.h>
 
+// Changes in v 2.2
+// Main display is 128x64
 // Changes in v 2.1
 // 1. Remove mode selection > Show Angle & RPM in the same screen
 // 2. Change font 6x12 to 8x13
@@ -13,13 +15,9 @@
 #include <Wire.h>
 #endif
 
-//U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE, /* clock=*/ SCL, /* data=*/ SDA);   // pin remapping with ESP8266 HW I2C
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);   // All Boards without Reset of the Display
-//U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 8, /* data=*/ 7, /* reset=*/ U8X8_PIN_NONE);   // ESP32 Thing, pure SW emulated I2C
 
 //------code for RPM----------------
-const int pinEncoder = 2; // The pin the encoder is connected
-
 unsigned int rpm; // rpm reading
 unsigned int rpmPrev; // previous rpm reading
 volatile byte pulses; // number of pulses
@@ -28,18 +26,16 @@ unsigned int pulsesPerTurn = 1;
 
 // added by Kevin
 Servo myServo;
-//const int setModePIN = 4;
+const int pinEncoder = 2; // The pin the encoder is connected
 const int pinSetBlade = 3;
 const int pinSetServo = A6;
 const int pinVoltageServo = A3;
 const int pinVoltageIN=A2;
 const int pinPWMout=9;
 const int numBladeMax=4;
-const int defaultDelay=25;
+const int defaultDelay=10;
 
 int numBlade = 2;
-//float adcSetServo;
-//float servoAngle;
 int servoAngleINT;
 int servoAngleOLD;
 
@@ -108,11 +104,6 @@ void displayVoltage() {
 
 // Show voltage information on the display
   u8g2.drawStr(0, Line1, "Voltage");
-/*  char voltageINStr[5];
-  dtostrf(voltageIN, 3, 1, voltageINStr);  // 숫자를 문자열로 변환
-  strcat(voltageINStr, "V");
-  u8g2.setCursor(50, Line1); u8g2.print(voltageINStr);
-*/
   char voltageServoStr[5];
   dtostrf(voltageServo, 3, 1, voltageServoStr);  // 숫자를 문자열로 변환
   strcat(voltageServoStr, "V");
@@ -123,52 +114,28 @@ void displayVoltage() {
 void displayServoInfo() {
   float adcSetServo;
   float servoAngle;
-  //int servoAngleINT;
-  //int servoAngleOLD;
   int xCoordinate;
 
 // Convert potentiometer input to servo angle
   adcSetServo=analogRead(pinSetServo);
-  servoAngle=adcSetServo*180.0/1023.0;
-  servoAngleINT=180-static_cast<int>(round(servoAngle));
+  servoAngleINT=map(adcSetServo, 0, 1023, 180,0);
 
   Serial.print(" A6:");    Serial.print(adcSetServo);   Serial.print(",");
   Serial.print("sAngle:"); Serial.print(servoAngleINT); Serial.print("deg,");
 
 // Convert servoAngleINT to a char array
   char servoAngleChar[4];  // Assuming servoAngleINT is a maximum of 3 digits
-//  sprintf(servoAngleChar, "%d", servoAngleINT);
-// Calculate the x-coordinate for right alignment
-//  int xCoordinate = 119 - u8g2.getStrWidth(servoAngleChar);
 
 // Show servo information on the display
   u8g2.drawStr(0,Line2,"S_angle");
   u8g2.drawGlyph(119,Line2,176);
 
 // Send angle value to servo
-  if ( servoAngleINT > servoAngleOLD ) {
-    for (int i=servoAngleOLD; i<=servoAngleINT; i++) {
-      myServo.write(i);
-      delay(defaultDelay);
-      sprintf(servoAngleChar, "%d", i);
-// Calculate the x-coordinate for right alignment
-      xCoordinate = 119 - u8g2.getStrWidth(servoAngleChar);
-      u8g2.setCursor(xCoordinate, Line2); 
-      u8g2.print(servoAngleChar);
-    }    
-  }
-  else {
-    for (int i=servoAngleOLD; i>=servoAngleINT; i--) {
-      myServo.write(i);
-      delay(defaultDelay);
-      sprintf(servoAngleChar, "%d", i);
-// Calculate the x-coordinate for right alignment
-      xCoordinate = 119 - u8g2.getStrWidth(servoAngleChar);
-      u8g2.setCursor(xCoordinate, Line2); 
-      u8g2.print(servoAngleChar);
-    }
-  }
-  servoAngleOLD=servoAngleINT;
+  myServo.write(servoAngleINT);
+  sprintf(servoAngleChar, "%d", servoAngleINT);
+  xCoordinate = 119 - u8g2.getStrWidth(servoAngleChar);
+  u8g2.setCursor(xCoordinate, Line2); 
+  u8g2.print(servoAngleChar);
 }
 
 void calcRPM() {
